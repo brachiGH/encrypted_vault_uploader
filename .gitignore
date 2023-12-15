@@ -1,0 +1,6 @@
+main.exe
+*.csv
+.vscode/
+config.cfg
+temp/
+backup/
