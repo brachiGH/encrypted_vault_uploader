@@ -18,10 +18,7 @@ def archive(backup_path, master_pass):
             subprocess.run(f'.\\7z\\7z_x64\\7za.exe {command}', shell=True, check=True)
         elif "linux" in system_platform:
             # Execute command on Linux
-            subprocess.run(f'./7z/7z_linux-x64/7zz {command}', shell=True, check=True)
-        elif "arm" in system_platform:
-            # Execute command on Linux ARM
-            subprocess.run(f'./7z/7z_linux-arm/7zz {command}', shell=True, check=True)
+            subprocess.run(f'7za {command}', shell=True, check=True)
         else:
             print("Unsupported operating system.")
     except subprocess.CalledProcessError as e:
@@ -41,10 +38,7 @@ def extract(file, master_pass):
             subprocess.run(f'.\\7z\\7z_x64\\7za.exe {command}', shell=True, check=True)
         elif "linux" in system_platform:
             # Execute command on Linux
-            subprocess.run(f'./7z/7z_linux-x64/7zz {command}', shell=True, check=True)
-        elif "arm" in system_platform:
-            # Execute command on Linux ARM
-            subprocess.run(f'./7z/7z_linux-arm/7zz {command}', shell=True, check=True)
+            subprocess.run(f'7za {command}', shell=True, check=True)
         else:
             print("Unsupported operating system.")
     except subprocess.CalledProcessError as e:
