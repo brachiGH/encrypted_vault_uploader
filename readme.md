@@ -28,7 +28,7 @@ find the download button
 ```bash
 pip install virtualenv
 virtualenv env
-env\Scripts\activate
+env\Scripts\activate  or source env/bin/activate
 env\Scripts\pip.exe install google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2
 ```
 
