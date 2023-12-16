@@ -1,4 +1,5 @@
 import os
+import time
 import google.auth
 import google.auth.transport.requests
 from googleapiclient.http import MediaFileUpload
@@ -37,7 +38,8 @@ def upload_file(drive_service, file_path, mime_type, folder_id):
         print(f"File '{os.path.basename(file_path)}' uploaded successfully. File ID: {response['id']}")
     except Exception as e:
         print(f"Error uploading file: {e}")
-        print("Re-uploading")
+        print("Re-uploading in 15seconds..")
+        time.sleep(15)
         upload_file(drive_service, file_path, mime_type, folder_id)
 
 def get_file_size(file_path):
