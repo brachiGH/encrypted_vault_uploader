@@ -26,8 +26,7 @@ find the download button
 # installation
 
 ```bash
-pip install virtualenv
-virtualenv env
+python -m venv env
 env\Scripts\activate
 env\Scripts\pip.exe install google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2
 ```
