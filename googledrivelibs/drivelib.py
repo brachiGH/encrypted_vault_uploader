@@ -2,30 +2,42 @@ import os
 import google.auth
 import google.auth.transport.requests
 from googleapiclient.http import MediaFileUpload
+from googleapiclient.discovery import build
 # Define the MIME type of the file
 import mimetypes
 
 
-def upload_file(service, file_path, mime_type, folder_id):
-    """Uploads a file to Google Drive in the specified folder."""
-
+def upload_file(drive_service, file_path, mime_type, folder_id):
     try:
         file_size = get_file_size(file_path)
         print(f"uploading \"{file_path}\" size is: {file_size:.2f} MB")
     except FileNotFoundError as e:
         print(str(e))
+    
+    try:
+        file_metadata = {
+            'name': os.path.basename(file_path),
+            'parents': [folder_id],  # Replace with the ID of the folder where you want to upload the file
+        }
 
-    file_metadata = {
-        'name': os.path.basename(file_path),
-        'parents': [folder_id]
-    }
-    media = MediaFileUpload(file_path, mimetype=mime_type)
-    service.files().create(
-        body=file_metadata,
-        media_body=media,
-        fields='id'
-    ).execute()
+        print(file_path)
+        media = MediaFileUpload(file_path, chunksize=1024*1024, resumable=True)
+        
+        request = drive_service.files().create(
+            body=file_metadata,
+            media_body=media,
+            fields='id'
+        )
 
+        response = None
+        while response is None:
+            status, response = request.next_chunk()
+            if status:
+                print(f"Uploaded {int(status.progress() * 100)}%")
+
+        print(f"File '{os.path.basename(file_path)}' uploaded successfully. File ID: {response['id']}")
+    except Exception as e:
+        print(f"Error uploading file: {e}")
 
 def get_file_size(file_path):
     """Gets the size of a file in megabytes (MB)."""
