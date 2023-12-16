@@ -2,12 +2,12 @@ from datetime import datetime
 
 
 def register_a_sync(datetime = datetime.now().strftime("%d-%m-%Y__%H-%M-%S")):
-    f=open('.lastsync', 'w')
+    f=open('date.lastsync', 'w')
     f.write(datetime)
     f.close()
 
 def get_last_register():
-    f=open('.lastsync', 'r')
+    f=open('date.lastsync', 'r')
     time = f.readline()
     f.close()
 

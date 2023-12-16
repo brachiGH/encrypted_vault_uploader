@@ -104,5 +104,7 @@ if __name__ == "__main__":
             shutil.rmtree(backup_path)
 
         register_a_sync()
+        fill_old_database(database_file, old_database_file)
+
 
         time.sleep(refresh_time)

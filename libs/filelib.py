@@ -98,3 +98,9 @@ def deletefiles_file(path, vault_path):
             components = [vault_path] + line.strip().split(';')
             file_path = os.path.join(*components)
             delete_file(file_path)
+
+
+
+def fill_old_database(database_file, old_database_file):
+    delete_file(old_database_file)
+    copy_file_with_folders(database_file, old_database_file)

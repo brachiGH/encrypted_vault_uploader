@@ -8,6 +8,4 @@ databsae/
 token.pickle
 credentials.json
 env/
-*.lastsync
-./.lastsync
-.lastsync
+date.lastsync
