@@ -111,4 +111,4 @@ def delete_folder(folder_path):
         shutil.rmtree(folder_path)
         print(f"Folder '{folder_path}' and its contents deleted successfully.")
     except Exception as e:
-        print(f"Error deleting folder: {e}")
+        print(f"Folder '{folder_path}' does not exist.")

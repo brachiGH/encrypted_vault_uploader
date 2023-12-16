@@ -41,7 +41,7 @@ if __name__ == "__main__":
             files_list = list_files_in_directory(drive_service, folder_id)
             files_list = filter_elements_by_date(files_list, lastsync)
 
-            print(str(len(files_list))+' files to to download.')
+            print('#########################\n'+str(len(files_list))+' files to to download.\n')
             for drive_file in files_list:
                 z_file_path = os.path.join(backup_path, drive_file['name'])
                 delete_file(z_file_path)
