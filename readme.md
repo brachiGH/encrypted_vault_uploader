@@ -32,7 +32,7 @@ env\Scripts\activate  or source env/bin/activate
 env\Scripts\pip.exe install google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2
 
 if on linux 
-install 7zip
+install p7zip
 ```
 
 # How it works

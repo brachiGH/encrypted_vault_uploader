@@ -104,3 +104,12 @@ def deletefiles_file(path, vault_path):
 def fill_old_database(database_file, old_database_file):
     delete_file(old_database_file)
     copy_file_with_folders(database_file, old_database_file)
+
+
+
+def delete_folder(folder_path):
+    try:
+        shutil.rmtree(folder_path)
+        print(f"Folder '{folder_path}' and its contents deleted successfully.")
+    except Exception as e:
+        print(f"Error deleting folder: {e}")

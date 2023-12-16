@@ -78,6 +78,7 @@ def list_files_in_directory(drive_service, directory_id):
 
 def download_file(drive_service, file_id, destination_path):
     try:
+        print(f"Downloading {destination_path}")
         request = drive_service.files().get_media(fileId=file_id)
         with open(destination_path, 'wb') as file:
             downloader = request.execute()

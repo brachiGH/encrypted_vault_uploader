@@ -31,7 +31,7 @@ def extract(file, master_pass):
     """
     system_platform = platform.system().lower()
 
-    command = f'e "{file}" -p"{master_pass}" -o"{file[:-3]}"'
+    command = f'x "{file}" -p"{master_pass}" -o"{file[:-3]}"'
     try:
         if "windows" in system_platform:
             # Execute command on Windows

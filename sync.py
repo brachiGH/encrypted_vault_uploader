@@ -34,6 +34,7 @@ if __name__ == "__main__":
     files_list = list_files_in_directory(drive_service, folder_id)
     files_list = filter_elements_by_date(files_list, lastsync)
 
+    create_folder(backup_path)
     backup_path = os.path.join(backup_path, 'donwload')
     create_folder(backup_path)
 
@@ -42,10 +43,12 @@ if __name__ == "__main__":
             for drive_file in files_list:
                 z_file_path = os.path.join(backup_path, drive_file['name'])
                 delete_file(z_file_path)
+                delete_folder(z_file_path[:-3])
                 download_file(drive_service, drive_file['id'], z_file_path)
                 extract(z_file_path, master_pass)
 
                 extracted_files_list = get_all_files_info(z_file_path[:-3])
+
 
                 for extracted_file in extracted_files_list:
                     if '.deletedfiles' in extracted_file[0]:
