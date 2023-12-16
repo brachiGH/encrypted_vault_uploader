@@ -61,7 +61,7 @@ if __name__ == "__main__":
                         copy_file_with_folders(extracted_file[0], file_path_in_vault)
 
                 register_a_sync(drive_file['name'][:-3])
-        except:
-            print("Err syncing files")
+        except Exception as e:
+            print("Err syncing files: "+str(e))
 
         time.sleep(refresh_time)
