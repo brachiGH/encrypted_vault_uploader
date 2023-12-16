@@ -1,7 +1,7 @@
 # how to download google configuration files
 
 ```
-Go to the Google Cloud Console https://console.cloud.google.com/ and create a new project (or select an existing one).
+Go to the Google Cloud Console https://console.cloud.google.com/ and create a new project.
 Enable the Google Drive API for your project by following these steps:
     Click on the "APIs & Services" -> "Library" menu on the left sidebar.
     Search for "Google Drive API" and click on it.
@@ -14,6 +14,12 @@ Create credentials for your project by following these steps:
     application type "Desktop App"
     Click the "Continue" button.
 Download The JSON file and save it as "credentials.json".
+
+
+if you have an exist project 
+go to "APIs & Services" -> "Credentials"
+select a "OAuth 2.0 Client IDs"
+find the download button
 ```
 
 
