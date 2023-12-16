@@ -10,7 +10,7 @@ def archive(backup_path, master_pass):
     """
     system_platform = platform.system().lower()
 
-    command = f'a "{backup_path+'.7z'}" -p"{master_pass}" -mhe=on "{os.path.join(backup_path, '*')}"'
+    command = f'a "{(backup_path+".7z")}" -p"{master_pass}" -mhe=on "{os.path.join(backup_path, '*')}"'
     try:
         if "windows" in system_platform:
             # Execute command on Windows
