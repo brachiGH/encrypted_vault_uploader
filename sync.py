@@ -64,4 +64,5 @@ if __name__ == "__main__":
         except Exception as e:
             print("Err syncing files: "+str(e))
 
+        print(f'next action is in {seconds_to_hhmmss(refresh_time)}')
         time.sleep(refresh_time)

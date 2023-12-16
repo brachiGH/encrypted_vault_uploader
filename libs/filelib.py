@@ -112,3 +112,8 @@ def delete_folder(folder_path):
         print(f"Folder '{folder_path}' and its contents deleted successfully.")
     except Exception as e:
         print(f"Folder '{folder_path}' does not exist.")
+
+def seconds_to_hhmmss(seconds):
+    hours, remainder = divmod(seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
