@@ -64,7 +64,7 @@ def create_config(config, config_file_path):
     config.set("Settings", "backup_path", input("Enter the backup path: "))
     config.set("Settings", "refresh_time", input("Enter the refresh time (in seconds): "))
     config.set("Settings", "master_pass", input("Enter the master password: "))
-    config.set("Settings", "folder_id", input("Enter the master password: "))
+    config.set("Settings", "folder_id", input("Enter the google drive folder_id: "))
 
     with open(config_file_path, "w") as config_file:
         config.write(config_file)
