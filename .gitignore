@@ -1,6 +1,13 @@
 main.exe
 *.csv
-.vscode/
 config.cfg
 temp/
 backup/
+databsae/
+*.pyc
+token.pickle
+credentials.json
+env/
+*.lastsync
+./.lastsync
+.lastsync
