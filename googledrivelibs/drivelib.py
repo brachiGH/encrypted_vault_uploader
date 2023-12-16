@@ -20,7 +20,6 @@ def upload_file(drive_service, file_path, mime_type, folder_id):
             'parents': [folder_id],  # Replace with the ID of the folder where you want to upload the file
         }
 
-        print(file_path)
         media = MediaFileUpload(file_path, chunksize=1024*1024, resumable=True)
         
         request = drive_service.files().create(
@@ -38,6 +37,8 @@ def upload_file(drive_service, file_path, mime_type, folder_id):
         print(f"File '{os.path.basename(file_path)}' uploaded successfully. File ID: {response['id']}")
     except Exception as e:
         print(f"Error uploading file: {e}")
+        print("Re-uploading")
+        upload_file(drive_service, file_path, mime_type, folder_id)
 
 def get_file_size(file_path):
     """Gets the size of a file in megabytes (MB)."""
@@ -56,13 +57,9 @@ def get_mime_type(file_path):
 def upload_file_to_drive(file_path, folder_id, drive_service):
     mime_type = get_mime_type(file_path)
 
-    try:
-        # Upload the file to the specified folder
-        upload_file(drive_service, file_path, mime_type, folder_id)
+    # Upload the file to the specified folder
+    upload_file(drive_service, file_path, mime_type, folder_id)
 
-        print(f'"{file_path}" uploaded successfully!')
-    except Exception as e:
-        print('An error occurred:', str(e))
 
 
 
