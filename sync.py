@@ -14,6 +14,7 @@ if __name__ == "__main__":
 
 
     import os
+    import time
     from libs.synclib import *
     from libs.archive import extract
     from libs.filelib import *
@@ -34,23 +35,26 @@ if __name__ == "__main__":
     backup_path = os.path.join(backup_path, 'donwload')
     create_folder(backup_path)
 
-    try:
-        for drive_file in files_list:
-            z_file_path = os.path.join(backup_path, drive_file['name'])
-            delete_file(z_file_path)
-            download_file(drive_service, drive_file['id'], z_file_path)
-            extract(z_file_path, master_pass)
+    while (True):
+        try:
+            for drive_file in files_list:
+                z_file_path = os.path.join(backup_path, drive_file['name'])
+                delete_file(z_file_path)
+                download_file(drive_service, drive_file['id'], z_file_path)
+                extract(z_file_path, master_pass)
 
-            extracted_files_list = get_all_files_info(z_file_path[:-3])
+                extracted_files_list = get_all_files_info(z_file_path[:-3])
 
-            for extracted_file in extracted_files_list:
-                if '.deletedfiles' in extracted_file[0]:
-                    deletefiles_file(extracted_file[0], vault_path)
-                else:
-                    file_path_in_vault = replace_part(extracted_file[0], z_file_path[:-3], vault_path)
-                    delete_file(file_path_in_vault)
-                    copy_file_with_folders(extracted_file[0], file_path_in_vault)
+                for extracted_file in extracted_files_list:
+                    if '.deletedfiles' in extracted_file[0]:
+                        deletefiles_file(extracted_file[0], vault_path)
+                    else:
+                        file_path_in_vault = replace_part(extracted_file[0], z_file_path[:-3], vault_path)
+                        delete_file(file_path_in_vault)
+                        copy_file_with_folders(extracted_file[0], file_path_in_vault)
 
-            register_a_sync(drive_file['name'][:-3])
-    except:
-        print("Err syncing files")
+                register_a_sync(drive_file['name'][:-3])
+        except:
+            print("Err syncing files")
+
+        time.sleep(refresh_time)
