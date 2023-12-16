@@ -25,7 +25,7 @@ def authenticate():
             credentials.refresh(google.auth.transport.requests.Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(credentials_path, ['https://www.googleapis.com/auth/drive'])
-            credentials = flow.run_local_server(port=0)
+            credentials = flow.run_local_server(port=0,open_browser=False)
         
         # Save the credentials for the next run
         with open(token_path, 'wb') as token:
