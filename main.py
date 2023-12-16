@@ -53,7 +53,7 @@ if __name__ == "__main__":
     from pathlib import Path
     BASE_DIR = Path(__file__).resolve().parent
     this_file = BASE_DIR / 'env' / 'Scripts' / 'activate_this.py'
-    if (not path.exists()):
+    if (not this_file.exists()):
         this_file = BASE_DIR / 'env' / 'bin' / 'activate_this.py'
 
     exec(open(this_file).read(), {'__file__': this_file})
