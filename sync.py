@@ -29,17 +29,19 @@ if __name__ == "__main__":
     
     vault_path, backup_path, refresh_time, master_pass, folder_id = create_or_load_config()
     
-
-    lastsync = get_last_register()
-    files_list = list_files_in_directory(drive_service, folder_id)
-    files_list = filter_elements_by_date(files_list, lastsync)
-
     create_folder(backup_path)
     backup_path = os.path.join(backup_path, 'donwload')
     create_folder(backup_path)
 
+
+
     while (True):
         try:
+            lastsync = get_last_register()
+            files_list = list_files_in_directory(drive_service, folder_id)
+            files_list = filter_elements_by_date(files_list, lastsync)
+
+            print(str(len(files_list))+' files to to download.')
             for drive_file in files_list:
                 z_file_path = os.path.join(backup_path, drive_file['name'])
                 delete_file(z_file_path)
