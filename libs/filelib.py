@@ -131,4 +131,5 @@ def sort_dicts_by_name(dict_list):
 
 def datenow_for_logging():
     current_datetime = datetime.now()
-    return f"[{crrent_datetime.strftime("%H:%M:%S")}]"
+    date = crrent_datetime.strftime("%H:%M:%S")
+    return f"[{date}]"
