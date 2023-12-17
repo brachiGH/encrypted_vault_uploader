@@ -39,7 +39,8 @@ if __name__ == "__main__":
         try:
             lastsync = get_last_register()
             files_list = list_files_in_directory(drive_service, folder_id)
-            files_list = filter_elements_by_date(files_list, lastsync)
+            files_list = filter_elements_by_date(files_list, lastsync) # return files that are not download in the last sync
+            files_list = sort_dicts_by_name(files_list) # sort files by date aka name
 
             print('#########################\n'+str(len(files_list))+' files to to download.\n')
             for drive_file in files_list:
@@ -50,7 +51,6 @@ if __name__ == "__main__":
                 extract(z_file_path, master_pass)
 
                 extracted_files_list = get_all_files_info(z_file_path[:-3])
-                extracted_files_list = sort_dicts_by_name(extracted_files_list)
 
 
                 for extracted_file in extracted_files_list:
@@ -65,5 +65,5 @@ if __name__ == "__main__":
         except Exception as e:
             print("Err syncing files: "+str(e))
 
-        print(f'################################\n\nnext action is in {seconds_to_hhmmss(refresh_time)}')
+        print(f'################################\n\n\n{datenow_for_logging()}next action is in {seconds_to_hhmmss(refresh_time)}')
         time.sleep(refresh_time)

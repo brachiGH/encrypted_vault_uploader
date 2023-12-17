@@ -128,3 +128,7 @@ def sort_dicts_by_name(dict_list):
     sorted_dict_list = sorted(dict_list, key=custom_sorting_key)
 
     return sorted_dict_list
+
+def datenow_for_logging():
+    current_datetime = datetime.now()
+    return f"[{crrent_datetime.strftime("%H:%M:%S")}]"

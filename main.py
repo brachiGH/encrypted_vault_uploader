@@ -1,4 +1,5 @@
 vault_path = ''
+backup_folder = ''
 backup_path = ''
 refresh_time = ''
 master_pass = ''
@@ -75,9 +76,9 @@ if __name__ == "__main__":
     # Authenticate and get the Google Drive API service
     drive_service = authenticate()
 
-    vault_path, backup_path, refresh_time, master_pass, folder_id = create_or_load_config()
+    vault_path, backup_folder, refresh_time, master_pass, folder_id = create_or_load_config()
     print(f"Vault Path: {vault_path}")
-    print(f"Backup Path: {backup_path}")
+    print(f"Backup Path: {backup_folder}")
     print(f"Refresh Time: {refresh_time} seconds")
     print(f"Master Password: {master_pass}")
 
@@ -96,7 +97,7 @@ if __name__ == "__main__":
             write_to_csv(file_info_list, database_file)
             print(f"File information has been stored in {database_file}.\n\n")
 
-            backup_path = create_dated_folder(backup_path)
+            backup_path = create_dated_folder(backup_folder)
             has_been_any_changes = compare_databases(old_database_file, database_file)
             
             if (has_been_any_changes):
@@ -112,5 +113,5 @@ if __name__ == "__main__":
             print(e)
 
 
-        print(f'################################\n\nnext action is in {seconds_to_hhmmss(refresh_time)}')
+        print(f'################################\n\n\n{datenow_for_logging()}next action is in {seconds_to_hhmmss(refresh_time)}')
         time.sleep(refresh_time)
