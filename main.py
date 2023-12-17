@@ -112,5 +112,5 @@ if __name__ == "__main__":
             print(e)
 
 
-        print(f'next action is in {seconds_to_hhmmss(refresh_time)}')
+        print(f'################################\n\nnext action is in {seconds_to_hhmmss(refresh_time)}')
         time.sleep(refresh_time)
