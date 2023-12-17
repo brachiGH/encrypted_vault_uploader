@@ -122,7 +122,7 @@ def seconds_to_hhmmss(seconds):
 def sort_dicts_by_name(dict_list):
     # Define a custom sorting key function
     def custom_sorting_key(d):
-        return datetime.strptime(d['name'], "%d-%m-%Y__%H-%M-%S")
+        return datetime.strptime(d['name'][:-3], "%d-%m-%Y__%H-%M-%S")
 
     # Use the sorted function with the custom sorting key
     sorted_dict_list = sorted(dict_list, key=custom_sorting_key)
