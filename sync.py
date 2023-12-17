@@ -50,6 +50,7 @@ if __name__ == "__main__":
                 extract(z_file_path, master_pass)
 
                 extracted_files_list = get_all_files_info(z_file_path[:-3])
+                extracted_files_list = sort_dicts_by_name(extracted_files_list)
 
 
                 for extracted_file in extracted_files_list:

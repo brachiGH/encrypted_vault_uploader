@@ -117,3 +117,14 @@ def seconds_to_hhmmss(seconds):
     hours, remainder = divmod(seconds, 3600)
     minutes, seconds = divmod(remainder, 60)
     return "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
+
+
+def sort_dicts_by_name(dict_list):
+    # Define a custom sorting key function
+    def custom_sorting_key(d):
+        return datetime.strptime(d['name'], "%d-%m-%Y__%H-%M-%S")
+
+    # Use the sorted function with the custom sorting key
+    sorted_dict_list = sorted(dict_list, key=custom_sorting_key)
+
+    return sorted_dict_list
