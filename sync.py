@@ -52,23 +52,26 @@ if __name__ == "__main__":
                 delete_file(z_file_path)
                 delete_folder(z_file_path[:-3])
                 download_file(drive_service, drive_file['id'], z_file_path)
-                extract(z_file_path, master_pass)
+                return_code = extract(z_file_path, master_pass)
 
-                extracted_files_list = get_all_files_info(z_file_path[:-3])
+                if return_code ==0:
+                    extracted_files_list = get_all_files_info(z_file_path[:-3])
 
 
-                for extracted_file in extracted_files_list:
-                    if '.deletedfiles' in extracted_file[0]:
-                        ## create backup
-                        set_a_backup(vault_path, backup_path, master_pass)
+                    for extracted_file in extracted_files_list:
+                        if '.deletedfiles' in extracted_file[0]:
+                            ## create backup
+                            set_a_backup(vault_path, backup_path, master_pass)
 
-                        deletefiles_file(extracted_file[0], vault_path)
-                    else:
-                        file_path_in_vault = replace_part(extracted_file[0], z_file_path[:-3], vault_path)
-                        delete_file(file_path_in_vault)
-                        copy_file_with_folders(extracted_file[0], file_path_in_vault)
+                            deletefiles_file(extracted_file[0], vault_path)
+                        else:
+                            file_path_in_vault = replace_part(extracted_file[0], z_file_path[:-3], vault_path)
+                            delete_file(file_path_in_vault)
+                            copy_file_with_folders(extracted_file[0], file_path_in_vault)
 
-                register_a_sync(drive_file['name'][:-3])
+                    register_a_sync(drive_file['name'][:-3])
+                else:
+                    print('AN ERR HAS ACCURRED WHILE EXTRACTING 7Z')
         except Exception as e:
             print("Err syncing files: "+str(e))
 

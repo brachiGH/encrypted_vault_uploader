@@ -47,31 +47,6 @@ def compare_databases(old_db_file, new_db_file):
     return has_been_any_changes
 
 
-def run_backup(vault_path, database_file, old_database_file, backup_foldern, master_pass, folder_id, drive_service, upload=True):
-    try:
-        # Get file information recursively
-        file_info_list = get_all_files_info(vault_path)
-        # Write file information to CSV
-        write_to_csv(file_info_list, database_file)
-        print(f"File information has been stored in {database_file}.\n\n")
-
-        backup_path = create_dated_folder(backup_folder)
-        has_been_any_changes = compare_databases(old_database_file, database_file)
-        
-        if (has_been_any_changes):
-            archive(backup_path, backup_path, master_pass)
-
-            if upload:
-                upload_file_to_drive(backup_path+'.7z', folder_id, drive_service)
-        else:
-            shutil.rmtree(backup_path)
-
-        register_a_sync()
-        if upload:
-            fill_old_database(database_file, old_database_file)
-    except Exception as e:
-        print(e)
-
 
 
 
@@ -115,8 +90,31 @@ if __name__ == "__main__":
 
 
     while (True):
-        run_backup(vault_path, database_file, old_database_file, backup_foldern, master_pass, folder_id, drive_service)
+        try:
+            # Get file information recursively
+            file_info_list = get_all_files_info(vault_path)
+            # Write file information to CSV
+            write_to_csv(file_info_list, database_file)
+            print(f"File information has been stored in {database_file}.\n\n")
 
+            backup_path = create_dated_folder(backup_folder)
+            has_been_any_changes = compare_databases(old_database_file, database_file)
+            
+            if (has_been_any_changes):
+                return_code = archive(backup_path, backup_path, master_pass)
+
+                if return_code ==0:
+                    upload_file_to_drive(backup_path+'.7z', folder_id, drive_service)
+                else:
+                    print('AN ERR HAS ACCURRED WHILE USING 7Z')
+            else:
+                shutil.rmtree(backup_path)
+
+            if return_code ==0:
+                register_a_sync()
+                fill_old_database(database_file, old_database_file)
+        except Exception as e:
+            print(e)
 
         print(f'################################\n\n\n{datenow_for_logging()}next action is in {seconds_to_hhmmss(refresh_time)}')
         time.sleep(refresh_time)
