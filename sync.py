@@ -5,6 +5,10 @@ master_pass = ''
 folder_id = ''
 
 
+def set_a_backup(vault_path, backup_path, master_pass):
+    backup_path = create_dated_folder(os.path.join(backup_path, "download_backup"))
+    archive(backup_path, vault_path, master_pass)
+
 if __name__ == "__main__":
     from pathlib import Path
     BASE_DIR = Path(__file__).resolve().parent
@@ -18,7 +22,7 @@ if __name__ == "__main__":
     import os
     import time
     from libs.synclib import *
-    from libs.archive import extract
+    from libs.archive import *
     from libs.filelib import *
     from loadConfig import create_or_load_config
     from googledrivelibs.auth import authenticate
@@ -55,6 +59,9 @@ if __name__ == "__main__":
 
                 for extracted_file in extracted_files_list:
                     if '.deletedfiles' in extracted_file[0]:
+                        ## create backup
+                        set_a_backup(vault_path, backup_path, master_pass)
+
                         deletefiles_file(extracted_file[0], vault_path)
                     else:
                         file_path_in_vault = replace_part(extracted_file[0], z_file_path[:-3], vault_path)

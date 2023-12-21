@@ -4,13 +4,13 @@ import subprocess
 import platform
 
 
-def archive(backup_path, master_pass):
+def archive(backup_path, folder_to_archive,  master_pass):
     """
     Execute a command based on the operating system.
     """
     system_platform = platform.system().lower()
     archive_file = backup_path+".7z"
-    folder_that_is_goingtobe_archived = os.path.join(backup_path, '*')
+    folder_that_is_goingtobe_archived = os.path.join(folder_to_archive, '*')
     command = f'a "{archive_file}" -p"{master_pass}" -mhe=on "{folder_that_is_goingtobe_archived}"'
     try:
         if "windows" in system_platform:

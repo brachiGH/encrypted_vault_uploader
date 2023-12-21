@@ -95,7 +95,7 @@ def deletefiles_file(path, vault_path):
     with open(path, 'r') as file:
         for line in file:
             components = [vault_path] + line.strip().split(';')
-            file_path = os.path.join(*components)
+            file_path = os.path.join(*list(filter(lambda x: x != "", components)))
             delete_file(file_path)
 
 
