@@ -26,7 +26,7 @@ def authenticate():
             try:
                 credentials.refresh(google.auth.transport.requests.Request())
             except:
-                print("!!!!!!!!!!!!!!!!!!!!!!!")
+                print("==============================\n\nIF YOU SEE THIS MSG RELOAD THE SCRIPT!!!!!\n\n=======================")
                 os.remove("token.pickle")
                 time.sleep(500)
                 credentials.refresh(google.auth.transport.requests.Request())

@@ -41,10 +41,10 @@ def extract(file, master_pass):
     try:
         if "windows" in system_platform:
             # Execute command on Windows
-            return_code = subprocess.check_call(f'.\\7z\\7z_x64\\7za.exe {command}', shell=True, check=True)
+            return_code = subprocess.check_call(f'.\\7z\\7z_x64\\7za.exe {command}', shell=True)
         elif "linux" in system_platform:
             # Execute command on Linux
-            return_code = subprocess.check_call(f'7za {command}', shell=True, check=True)
+            return_code = subprocess.check_call(f'7za {command}', shell=True)
         else:
             print("Unsupported operating system.")
 
