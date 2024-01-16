@@ -1,10 +1,11 @@
 import pickle
 import google.auth
-import google.auth.transport.requests
+from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.http import MediaFileUpload
 import os
+import time
     
 def authenticate():
     """Authenticates and returns the Google Drive API service."""
@@ -22,7 +23,13 @@ def authenticate():
     # If there are no (valid) credentials available, let the user log in.
     if not credentials or not credentials.valid:
         if credentials and credentials.expired and credentials.refresh_token:
-            credentials.refresh(google.auth.transport.requests.Request())
+            try:
+                credentials.refresh(google.auth.transport.requests.Request())
+            except:
+                print("!!!!!!!!!!!!!!!!!!!!!!!")
+                os.remove("token.pickle")
+                time.sleep(500)
+                credentials.refresh(google.auth.transport.requests.Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(credentials_path, ['https://www.googleapis.com/auth/drive'])
             credentials = flow.run_local_server(port=0,open_browser=False)
