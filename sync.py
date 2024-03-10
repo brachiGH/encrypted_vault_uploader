@@ -31,7 +31,7 @@ if __name__ == "__main__":
     # Authenticate and get the Google Drive API service
     drive_service = authenticate()
     
-    vault_path, backup_path, refresh_time, master_pass, folder_id = create_or_load_config()
+    vault_path, backup_path, refresh_time, master_pass, folder_id = create_or_load_config(1)
     
     create_folder(backup_path)
     backup_path = os.path.join(backup_path, 'donwload')
@@ -69,7 +69,7 @@ if __name__ == "__main__":
                             delete_file(file_path_in_vault)
                             copy_file_with_folders(extracted_file[0], file_path_in_vault)
 
-                    register_a_sync(drive_file['name'][:-3])
+                    register_a_sync(backup_path, drive_file['name'][:-3])
                 else:
                     print('AN ERR HAS ACCURRED WHILE EXTRACTING 7Z')
         except Exception as e:

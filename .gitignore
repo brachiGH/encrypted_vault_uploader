@@ -1,6 +1,7 @@
 main.exe
 *.csv
 config.cfg
+*.cfg
 temp/
 backup/
 databsae/
@@ -9,3 +10,4 @@ token.pickle
 credentials.json
 env/
 date.lastsync
+.deletedfiles

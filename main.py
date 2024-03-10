@@ -1,19 +1,9 @@
-vault_path = ''
-backup_folder = ''
-backup_path = ''
-refresh_time = ''
-master_pass = ''
-folder_id = ''
 
-
-def compare_databases(old_db_file, new_db_file):
+def compare_databases(old_db_file, new_db_file, vault_path, backup_path, master_pass):
     """
     Compare two databases.csv files and print paths for new, modified, and deleted files.
     """
     has_been_any_changes = False
-    global vault_path
-    global backup_path
-    global master_pass
 
 
     create_empty_csv(old_db_file)
@@ -76,45 +66,67 @@ if __name__ == "__main__":
     # Authenticate and get the Google Drive API service
     drive_service = authenticate()
 
-    vault_path, backup_folder, refresh_time, master_pass, folder_id = create_or_load_config()
+    vault_path, backup_folder, refresh_time, master_pass, folder_id, folders_count = create_or_load_config()
     print(f"Vault Path: {vault_path}")
     print(f"Backup Path: {backup_folder}")
     print(f"Refresh Time: {refresh_time} seconds")
-    print(f"Master Password: {master_pass}")
-
-    # Specify the CSV file to store the information
-    create_folder('database')
-    database_file = os.path.join('database', "database.csv")
-    old_database_file = os.path.join('database', "old_database.csv")
 
 
+    database_file = []
+    old_database_file = []
+    for i in range(folders_count):
+        database_path =  os.path.join(backup_folder[i], "database")
+        create_folder(database_path)
+        database_file.append(os.path.join(database_path, "database.csv"))
+        old_database_file.append(os.path.join(database_path, "old_database.csv"))
 
+
+
+
+    #turn list to dict
+    config_elements = [
+        {'vault_path': v, 'backup_folder': b, 'refresh_time': r, 'master_pass': p, 'folder_id': i,'database_file':d, 'old_database_file':od}
+        for v, b, r, p, i, d, od in zip(vault_path, backup_folder, refresh_time, master_pass, folder_id, database_file, old_database_file)
+    ]
+
+    config_elements = sorted(config_elements, key=lambda x: x['refresh_time'])
+    first_time = True
+    waited_time = 9999999999999 #this will allow all configs to run hceck the max fucntion in (time.Sleep - waited_time)
     while (True):
-        try:
+        for i in range(folders_count):
             # Get file information recursively
-            file_info_list = get_all_files_info(vault_path)
+            file_info_list = get_all_files_info(config_elements[i]['vault_path'])
             # Write file information to CSV
-            write_to_csv(file_info_list, database_file)
-            print(f"File information has been stored in {database_file}.\n\n")
+            write_to_csv(file_info_list, config_elements[i]['database_file'])
+            print(f"File information has been stored in {config_elements[i]['database_file']}.\n\n")
 
-            backup_path = create_dated_folder(backup_folder)
-            has_been_any_changes = compare_databases(old_database_file, database_file)
+            backup_path = create_dated_folder(config_elements[i]['backup_folder'])
+            has_been_any_changes = compare_databases(config_elements[i]['old_database_file'], config_elements[i]['database_file']
+                                                    ,config_elements[i]['vault_path'],backup_path
+                                                    ,config_elements[i]['master_pass'])
             
+            has_been_any_changes = 1
             if (has_been_any_changes):
-                return_code = archive(backup_path, backup_path, master_pass)
+                return_code = archive(backup_path, backup_path, config_elements[i]['master_pass'])
 
                 if return_code ==0:
-                    upload_file_to_drive(backup_path+'.7z', folder_id, drive_service)
+                    upload_file_to_drive(backup_path+'.7z', config_elements[i]['folder_id'], drive_service)
                 else:
                     print('AN ERR HAS ACCURRED WHILE USING 7Z')
             else:
                 shutil.rmtree(backup_path)
 
-            if return_code ==0:
-                register_a_sync()
-                fill_old_database(database_file, old_database_file)
-        except Exception as e:
-            print(e)
+            if return_code == 0:
+                register_a_sync(config_elements[i]['backup_folder'])
+                fill_old_database(config_elements[i]['database_file'], config_elements[i]['old_database_file'])
 
-        print(f'################################\n\n\n{datenow_for_logging()}next action is in {seconds_to_hhmmss(refresh_time)}')
-        time.sleep(refresh_time)
+            print(f'################################\n\n\n{datenow_for_logging()}next action is in {seconds_to_hhmmss(config_elements[i]['refresh_time'])}')
+            time.sleep(max(config_elements[i]['refresh_time'] - waited_time, 0))
+            waited_time = config_elements[i]['refresh_time']
+        
+        
+        if first_time:
+            first_time = False
+            time.sleep(max([element['refresh_time'] for element in config_elements]))
+        else:
+            waited_time = 0
