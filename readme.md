@@ -1,3 +1,6 @@
+# Description
+A Python script that encrypts folders and uploads them to Google Drive. The script also allows users to restore any version of their backed-up folders.
+
 # how to download google configuration files
 
 ```
